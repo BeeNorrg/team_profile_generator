@@ -71,7 +71,7 @@ function anotherOne(){
     ]).then((res) => {
         console.log(res.anotherMember);
         if (res.anotherMember === false) {
-            return;
+            render(employees);
         } else {
             employeeSelect();
         }
