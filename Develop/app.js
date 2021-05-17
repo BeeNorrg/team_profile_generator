@@ -133,8 +133,8 @@ function anotherOne(){
     ]).then((res) => {
         console.log(res.anotherMember);
         if (res.anotherMember === false) {
-            render(employees);
-            fs.writeFile(outputPath, data, err => {
+            let teamRender = render(employees);
+            fs.writeFile(outputPath, teamRender, err => {
                 if (err) {
                     console.log(err)
                     return
