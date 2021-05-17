@@ -21,7 +21,6 @@ const  startPrompts= [
         type: 'confirm',
         name: 'teamSelect',
         message: 'Would you like to build a team?'
-
     },
     {
         type: 'input',
@@ -60,9 +59,10 @@ function managerSelect(){
     ]).then((res) => {
         //create a new Manager
         let manager = new Manager(res.name, res.id, res.email, res.officeNumber);
+        console.log('Manager:', manager);
         //push manager to employees
         employees.push(manager);
-        console.log(employees);
+        console.log('employees:', employees);
         employeeSelect();
     })
 }
@@ -80,10 +80,31 @@ function engineerSelect(){
 function internSelect(){
     inquirer.prompt([
         {
-
+            type: 'input',
+            name: 'name',
+            message: 'Enter the name of your new Intern',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: 'Enter your new Intern\'s ID:',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'Enter your new Intern\'s email',
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: 'Enter your new Intern\'s school',
         },
     ]).then((res) => {
-        
+        //create new Intern
+        let intern = new Intern (res.name, res.id, res.email, res.school)
+        console.log('intern:', intern);
+        employees.push(intern);
+        console.log('employees:', employees);
     })
 }
 
@@ -97,15 +118,22 @@ function employeeSelect(){
         choices:['Intern', 'Engineer']
         }
     ]).then((res) => {
+        console.log(res.newMember);
+        if (res.newMember === 'Engineer'){
+            engineerSelect();
+        } else if (res.newMember === 'Intern'){
+            internSelect();
+        }
     })
-}
+};
 
 function init(){
     inquirer.prompt(startPrompts[0]).then((res) => {
-        if (res.teamSelect === 'Y') {
+        console.log('res:', res);
+        if (res.teamSelect === true) {
             managerSelect();
-        } else if (res.teamSelect === 'n') {
-            break;
+        } else if (res.teamSelect === false) {
+            return;
         }
     });
 }
