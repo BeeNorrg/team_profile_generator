@@ -9,10 +9,106 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-
+//init array for employees
+let employees = [];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+//continuePrompts is for determining if we start/loop through the team making process
+const  startPrompts= [
+    {
+        type: 'confirm',
+        name: 'teamSelect',
+        message: 'Would you like to build a team?'
+
+    },
+    {
+        type: 'input',
+        name: 'teamName',
+        message: 'What\'s your team\'s name?'
+    },
+    {
+        type: 'confirm',
+        name: 'anotherMember',
+        message: 'Do you want to add another employee?'
+    },
+];
+
+function managerSelect(){
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'Enter the name of your team\'s Manager',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: 'Enter your Manager\'s ID:',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'Enter your Manager\'s email',
+        },
+        {
+            type: 'input',
+            name: 'officeNumber',
+            message: 'Enter your Manager\'s office number',
+        },
+    ]).then((res) => {
+        //create a new Manager
+        let manager = new Manager(res.name, res.id, res.email, res.officeNumber);
+        //push manager to employees
+        employees.push(manager);
+        console.log(employees);
+        employeeSelect();
+    })
+}
+
+function engineerSelect(){
+    inquirer.prompt([
+        {
+
+        },
+    ]).then((res) => {
+        
+    })
+}
+
+function internSelect(){
+    inquirer.prompt([
+        {
+
+        },
+    ]).then((res) => {
+        
+    })
+}
+
+
+function employeeSelect(){
+    inquirer.prompt([
+        {
+        type: 'list',
+        name: 'newMember',
+        message: 'add a team member:',
+        choices:['Intern', 'Engineer']
+        }
+    ]).then((res) => {
+    })
+}
+
+function init(){
+    inquirer.prompt(startPrompts[0]).then((res) => {
+        if (res.teamSelect === 'Y') {
+            managerSelect();
+        } else if (res.teamSelect === 'n') {
+            break;
+        }
+    });
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -33,3 +129,4 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+init();
