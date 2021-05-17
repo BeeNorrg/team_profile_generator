@@ -61,41 +61,6 @@ function managerSelect(){
     })
 }
 
-function anotherOne(){
-    inquirer.prompt([
-        {
-            type: 'confirm',
-            name: 'anotherMember',
-            message: 'Do you want to add another team member?',
-            }
-    ]).then((res) => {
-        console.log(res.anotherMember);
-        if (res.anotherMember === false) {
-            render(employees);
-        } else {
-            employeeSelect();
-        }
-    })
-}
-
-function employeeSelect(){
-    inquirer.prompt([
-        {
-        type: 'list',
-        name: 'newMember',
-        message: 'Add a team member:',
-        choices:['Intern', 'Engineer']
-        }
-    ]).then((res) => {
-        console.log(res.newMember);
-        if (res.newMember === 'Engineer'){
-            engineerSelect();
-        } else if (res.newMember === 'Intern'){
-            internSelect();
-        }
-    })
-};
-
 function engineerSelect(){
     inquirer.prompt([
         {
@@ -157,6 +122,47 @@ function internSelect(){
         anotherOne();
     })
 }
+
+function anotherOne(){
+    inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'anotherMember',
+            message: 'Do you want to add another team member?',
+            }
+    ]).then((res) => {
+        console.log(res.anotherMember);
+        if (res.anotherMember === false) {
+            render(employees);
+            fs.writeFile(outputPath, data, err => {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+            })
+        } else {
+            employeeSelect();
+        }
+    })
+}
+
+function employeeSelect(){
+    inquirer.prompt([
+        {
+        type: 'list',
+        name: 'newMember',
+        message: 'Add a team member:',
+        choices:['Intern', 'Engineer']
+        }
+    ]).then((res) => {
+        console.log(res.newMember);
+        if (res.newMember === 'Engineer'){
+            engineerSelect();
+        } else if (res.newMember === 'Intern'){
+            internSelect();
+        }
+    })
+};
 
 function init(){
     inquirer.prompt(startPrompts[0]).then((res) => {
