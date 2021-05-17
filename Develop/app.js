@@ -27,11 +27,6 @@ const  startPrompts= [
         name: 'teamName',
         message: 'What\'s your team\'s name?'
     },
-    {
-        type: 'confirm',
-        name: 'anotherMember',
-        message: 'Do you want to add another employee?'
-    },
 ];
 
 function managerSelect(){
@@ -62,18 +57,73 @@ function managerSelect(){
         console.log('Manager:', manager);
         //push manager to employees
         employees.push(manager);
-        console.log('employees:', employees);
         employeeSelect();
     })
 }
 
+function anotherOne(){
+    inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'anotherMember',
+            message: 'Do you want to add another team member?',
+            }
+    ]).then((res) => {
+        console.log(res.anotherMember);
+        if (res.anotherMember === false) {
+            return;
+        } else {
+            employeeSelect();
+        }
+    })
+}
+
+function employeeSelect(){
+    inquirer.prompt([
+        {
+        type: 'list',
+        name: 'newMember',
+        message: 'Add a team member:',
+        choices:['Intern', 'Engineer']
+        }
+    ]).then((res) => {
+        console.log(res.newMember);
+        if (res.newMember === 'Engineer'){
+            engineerSelect();
+        } else if (res.newMember === 'Intern'){
+            internSelect();
+        }
+    })
+};
+
 function engineerSelect(){
     inquirer.prompt([
         {
-
+            type: 'input',
+            name: 'name',
+            message: 'Enter the name of your new Engineer',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: 'Enter your new Engineer\'s ID:',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'Enter your new Engineer\'s email',
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Enter your new Engineer\'s github username',
         },
     ]).then((res) => {
-        
+        //create new Engineer
+        let engineer = new Engineer (res.name, res.id, res.email, res.github)
+        console.log('engineer:', engineer);
+        employees.push(engineer);
+        anotherOne();
     })
 }
 
@@ -104,28 +154,9 @@ function internSelect(){
         let intern = new Intern (res.name, res.id, res.email, res.school)
         console.log('intern:', intern);
         employees.push(intern);
-        console.log('employees:', employees);
+        anotherOne();
     })
 }
-
-
-function employeeSelect(){
-    inquirer.prompt([
-        {
-        type: 'list',
-        name: 'newMember',
-        message: 'add a team member:',
-        choices:['Intern', 'Engineer']
-        }
-    ]).then((res) => {
-        console.log(res.newMember);
-        if (res.newMember === 'Engineer'){
-            engineerSelect();
-        } else if (res.newMember === 'Intern'){
-            internSelect();
-        }
-    })
-};
 
 function init(){
     inquirer.prompt(startPrompts[0]).then((res) => {
