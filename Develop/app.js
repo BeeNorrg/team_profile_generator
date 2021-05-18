@@ -54,7 +54,6 @@ function managerSelect(){
     ]).then((res) => {
         //create a new Manager
         let manager = new Manager(res.name, res.id, res.email, res.officeNumber);
-        console.log('Manager:', manager);
         //push manager to employees
         employees.push(manager);
         employeeSelect();
@@ -86,7 +85,6 @@ function engineerSelect(){
     ]).then((res) => {
         //create new Engineer
         let engineer = new Engineer (res.name, res.id, res.email, res.github)
-        console.log('engineer:', engineer);
         employees.push(engineer);
         anotherOne();
     })
@@ -117,7 +115,6 @@ function internSelect(){
     ]).then((res) => {
         //create new Intern
         let intern = new Intern (res.name, res.id, res.email, res.school)
-        console.log('intern:', intern);
         employees.push(intern);
         anotherOne();
     })
@@ -131,8 +128,8 @@ function anotherOne(){
             message: 'Do you want to add another team member?',
             }
     ]).then((res) => {
-        console.log(res.anotherMember);
         if (res.anotherMember === false) {
+            console.log('employees:', employees);
             let teamRender = render(employees);
             fs.writeFile(outputPath, teamRender, err => {
                 if (err) {
@@ -155,7 +152,6 @@ function employeeSelect(){
         choices:['Intern', 'Engineer']
         }
     ]).then((res) => {
-        console.log(res.newMember);
         if (res.newMember === 'Engineer'){
             engineerSelect();
         } else if (res.newMember === 'Intern'){
@@ -166,7 +162,6 @@ function employeeSelect(){
 
 function init(){
     inquirer.prompt(startPrompts[0]).then((res) => {
-        console.log('res:', res);
         if (res.teamSelect === true) {
             managerSelect();
         } else if (res.teamSelect === false) {

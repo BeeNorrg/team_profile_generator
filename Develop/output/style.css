@@ -1,0 +1,29 @@
+body {
+    background-color:#747474;
+}
+
+.employee-card {
+    margin-right:10px;
+    margin-left:10px;
+}
+
+.team-heading {
+    background-color:#272727;
+}
+
+#title {
+    background-color:#272727;
+    color:white;
+}
+
+#internCard {
+    background-color:#14A74C;
+}
+
+#engyCard {
+    background-color:#FFE400;
+}
+
+#mngrCard {
+    background-color:#FF652F;
+}   
